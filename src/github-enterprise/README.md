@@ -380,8 +380,8 @@ To use this with Claude Desktop, add the following to your `claude_desktop_confi
 {
   "mcpServers": {
     "github": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "command": "node",
+      "args": ["./dist/index.js"],
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "<YOUR_TOKEN>",
         "GITHUB_REPOSITORY_URL": "<YOUR_REPOSITORY_URL>",
