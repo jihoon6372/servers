@@ -51,7 +51,6 @@ export async function searchIssues(params: z.infer<typeof SearchIssuesSchema>) {
       params
     )
   );
-  // return githubRequest(buildUrl("https://api.github.com/search/issues", params));
 }
 
 export async function searchUsers(params: z.infer<typeof SearchUsersSchema>) {

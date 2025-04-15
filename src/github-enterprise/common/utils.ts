@@ -8,6 +8,21 @@ type RequestOptions = {
   headers?: Record<string, string>;
 };
 
+export function getRepositoryInfo() {
+  const GITHUB_REPOSITORY_URL =
+    process.env.GITHUB_REPOSITORY_URL ?? "https://api.github.com";
+  const GITHUB_API_VERSION = process.env.GITHUB_API_VERSION
+    ? `/${process.env.GITHUB_API_VERSION}`
+    : "";
+
+  return {
+    GITHUB_REPOSITORY_URL,
+    GITHUB_API_VERSION,
+  };
+}
+
+const { GITHUB_REPOSITORY_URL, GITHUB_API_VERSION } = getRepositoryInfo();
+
 async function parseResponseBody(response: Response): Promise<unknown> {
   const contentType = response.headers.get("content-type");
   if (contentType?.includes("application/json")) {
@@ -119,7 +134,7 @@ export async function checkBranchExists(
 ): Promise<boolean> {
   try {
     await githubRequest(
-      `https://api.github.com/repos/${owner}/${repo}/branches/${branch}`
+      `${GITHUB_REPOSITORY_URL}${GITHUB_API_VERSION}/repos/${owner}/${repo}/branches/${branch}`
     );
     return true;
   } catch (error) {
@@ -137,7 +152,9 @@ export async function checkBranchExists(
 
 export async function checkUserExists(username: string): Promise<boolean> {
   try {
-    await githubRequest(`https://api.github.com/users/${username}`);
+    await githubRequest(
+      `${GITHUB_REPOSITORY_URL}${GITHUB_API_VERSION}/users/${username}`
+    );
     return true;
   } catch (error) {
     if (
@@ -150,17 +167,4 @@ export async function checkUserExists(username: string): Promise<boolean> {
     }
     throw error;
   }
-}
-
-export function getRepositoryInfo() {
-  const GITHUB_REPOSITORY_URL =
-    process.env.GITHUB_REPOSITORY_URL ?? "https://api.github.com";
-  const GITHUB_API_VERSION = process.env.GITHUB_API_VERSION
-    ? `/${process.env.GITHUB_API_VERSION}`
-    : "";
-
-  return {
-    GITHUB_REPOSITORY_URL,
-    GITHUB_API_VERSION,
-  };
 }
