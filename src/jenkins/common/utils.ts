@@ -3,7 +3,7 @@ import jenkins from "jenkins";
 export const getJenkinsInfo = () => {
   return {
     JENKINS_BASE_URL:
-      process.env.JENKINS_BASE_URL ?? "https://jenkins.nhn-commerce.com",
+      process.env.JENKINS_BASE_URL ?? "https://jenkins.example.com",
   };
 };
 
