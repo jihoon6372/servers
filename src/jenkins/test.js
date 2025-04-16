@@ -12,7 +12,14 @@ const jenkinsInstance = new jenkins({
 
 (async () => {
   try {
-    const data = await jenkinsInstance.build.get("shopby-skin-seo", 34);
+    const data = await jenkinsInstance.job.build({
+      name: "shopby-skin-aurora-vanilla",
+      parameters: {
+        choice: ["TEST"],
+      },
+    });
+    // const data = await jenkinsInstance.build.get("shopby-skin-seo", 34);
+
     console.log(data);
   } catch (error) {
     console.log(error);

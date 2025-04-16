@@ -8,3 +8,15 @@ export const getJobInfo = (jobName: string) => {
 
   return parseResponseBody(data);
 };
+
+export const requestJobBuild = (
+  jobName: string,
+  parameters: Record<string, any>
+) => {
+  const data = jenkinsInstance.job.build({
+    name: jobName,
+    parameters,
+  });
+
+  return parseResponseBody(data);
+};

@@ -5,8 +5,12 @@ import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
-import { getBuildStatusTool, getJobInfoTool } from "./tools/index.js";
-import { getJobInfo } from "./operations/job.js";
+import {
+  getBuildStatusTool,
+  getJobInfoTool,
+  requestJobBuildTool,
+} from "./tools/index.js";
+import { getJobInfo, requestJobBuild } from "./operations/job.js";
 import { getBuildStatus } from "./operations/build.js";
 
 const server = new Server(
@@ -23,7 +27,7 @@ const server = new Server(
 
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   return {
-    tools: [getBuildStatusTool, getJobInfoTool],
+    tools: [getBuildStatusTool, getJobInfoTool, requestJobBuildTool],
   };
 });
 
@@ -45,6 +49,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return getJobInfo(request.params.arguments.jobName as string);
       }
 
+      case "request_job_build": {
+        return requestJobBuild(
+          request.params.arguments.jobName as string,
+          request.params.arguments.parameters as Record<string, any>
+        );
+      }
       default:
         throw new Error(`Unknown tool: ${request.params.name}`);
     }
