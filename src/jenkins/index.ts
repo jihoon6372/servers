@@ -39,18 +39,18 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
     switch (request.params.name) {
       case "get_build_status": {
-        return getBuildStatus(
+        return await getBuildStatus(
           request.params.arguments.jobName as string,
           request.params.arguments.buildNumber as number
         );
       }
 
       case "get_job_info": {
-        return getJobInfo(request.params.arguments.jobName as string);
+        return await getJobInfo(request.params.arguments.jobName as string);
       }
 
       case "request_job_build": {
-        return requestJobBuild(
+        return await requestJobBuild(
           request.params.arguments.jobName as string,
           request.params.arguments.parameters as Record<string, any>
         );
@@ -58,8 +58,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       default:
         throw new Error(`Unknown tool: ${request.params.name}`);
     }
-  } catch (error) {
-    throw error;
+  } catch (error: any) {
+    return {
+      content: [{ type: "text", text: error.message }],
+    };
   }
 });
 
