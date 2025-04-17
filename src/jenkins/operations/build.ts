@@ -2,15 +2,15 @@ import { getJenkinsInstance } from "../common/utils.js";
 
 const jenkinsInstance = getJenkinsInstance();
 
-export const getBuildStatus = (jobName: string, buildNumber: number) => {
-  const data = jenkinsInstance.build
-    .get(jobName, buildNumber)
-    .then(({ result, actions }) => {
-      return {
-        result,
-        actions,
-      };
-    });
+export const getBuildStatus = async (jobName: string, buildNumber: number) => {
+  const { result, actions } = await jenkinsInstance.build.get(
+    jobName,
+    buildNumber
+  );
 
-  return data;
+  return {
+    content: [
+      { type: "text", text: JSON.stringify({ result, actions }, null, 2) },
+    ],
+  };
 };

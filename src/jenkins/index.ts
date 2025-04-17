@@ -5,18 +5,30 @@ import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
+
 import {
   getBuildStatusTool,
-  getJobInfoTool,
   requestJobBuildTool,
+  addViewJobTool,
+  removeViewJobTool,
+  getViewListTool,
+  getViewTool,
+  getJobInfoTool,
 } from "./tools/index.js";
-import { getJobInfo, requestJobBuild } from "./operations/job.js";
-import { getBuildStatus } from "./operations/build.js";
+import {
+  getViewList,
+  getView,
+  addViewJob,
+  getJobInfo,
+  requestJobBuild,
+  getBuildStatus,
+  removeViewJob,
+} from "./operations/index.js";
 
 const server = new Server(
   {
     name: "github-mcp-server",
-    version: "1.0.0",
+    version: "1.1.0",
   },
   {
     capabilities: {
@@ -27,7 +39,15 @@ const server = new Server(
 
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   return {
-    tools: [getBuildStatusTool, getJobInfoTool, requestJobBuildTool],
+    tools: [
+      getBuildStatusTool,
+      getJobInfoTool,
+      requestJobBuildTool,
+      getViewListTool,
+      getViewTool,
+      addViewJobTool,
+      removeViewJobTool,
+    ],
   };
 });
 
@@ -55,6 +75,29 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           request.params.arguments.parameters as Record<string, any>
         );
       }
+
+      case "get_view_list": {
+        return await getViewList();
+      }
+
+      case "get_view": {
+        return await getView(request.params.arguments.viewName as string);
+      }
+
+      case "add_view_job": {
+        return await addViewJob(
+          request.params.arguments.viewName as string,
+          request.params.arguments.jobName as string
+        );
+      }
+
+      case "remove_view_job": {
+        return await removeViewJob(
+          request.params.arguments.viewName as string,
+          request.params.arguments.jobName as string
+        );
+      }
+
       default:
         throw new Error(`Unknown tool: ${request.params.name}`);
     }

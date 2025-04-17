@@ -2,10 +2,12 @@ import { getJenkinsInstance } from "../common/utils.js";
 
 const jenkinsInstance = getJenkinsInstance();
 
-export const getJobInfo = (jobName: string) => {
-  const data = jenkinsInstance.job.get(jobName);
+export const getJobInfo = async (jobName: string) => {
+  const data = await jenkinsInstance.job.get(jobName);
 
-  return data;
+  return {
+    content: [{ type: "text", text: JSON.stringify(data, null, 2) }],
+  };
 };
 
 export const requestJobBuild = (
@@ -17,5 +19,7 @@ export const requestJobBuild = (
     parameters,
   });
 
-  return data;
+  return {
+    content: [{ type: "text", text: JSON.stringify(data, null, 2) }],
+  };
 };
