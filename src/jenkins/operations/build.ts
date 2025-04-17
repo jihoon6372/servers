@@ -14,3 +14,19 @@ export const getBuildStatus = async (jobName: string, buildNumber: number) => {
     ],
   };
 };
+
+export const stopBuild = async (jobName: string, buildNumber: number) => {
+  await jenkinsInstance.build.stop(jobName, buildNumber);
+
+  return {
+    content: [{ type: "text", text: JSON.stringify("success", null, 2) }],
+  };
+};
+
+export const terminateBuild = async (jobName: string, buildNumber: number) => {
+  await jenkinsInstance.build.term(jobName, buildNumber);
+
+  return {
+    content: [{ type: "text", text: JSON.stringify("success", null, 2) }],
+  };
+};

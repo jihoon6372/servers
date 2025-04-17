@@ -14,6 +14,10 @@ import {
   getViewListTool,
   getViewTool,
   getJobInfoTool,
+  checkViewExistsTool,
+  checkJobExistsTool,
+  stopBuildTool,
+  terminateBuildTool,
 } from "./tools/index.js";
 import {
   getViewList,
@@ -23,6 +27,10 @@ import {
   requestJobBuild,
   getBuildStatus,
   removeViewJob,
+  checkViewExists,
+  checkJobExists,
+  stopBuild,
+  terminateBuild,
 } from "./operations/index.js";
 
 const server = new Server(
@@ -47,6 +55,10 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       getViewTool,
       addViewJobTool,
       removeViewJobTool,
+      checkViewExistsTool,
+      checkJobExistsTool,
+      stopBuildTool,
+      terminateBuildTool,
     ],
   };
 });
@@ -95,6 +107,30 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return await removeViewJob(
           request.params.arguments.viewName as string,
           request.params.arguments.jobName as string
+        );
+      }
+
+      case "check_view_exists": {
+        return await checkViewExists(
+          request.params.arguments.viewName as string
+        );
+      }
+
+      case "check_job_exists": {
+        return await checkJobExists(request.params.arguments.jobName as string);
+      }
+
+      case "stop_build": {
+        return await stopBuild(
+          request.params.arguments.jobName as string,
+          request.params.arguments.buildNumber as number
+        );
+      }
+
+      case "terminate_build": {
+        return await terminateBuild(
+          request.params.arguments.jobName as string,
+          request.params.arguments.buildNumber as number
         );
       }
 

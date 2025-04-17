@@ -55,6 +55,34 @@ Jenkins API를 위한 MCP 서버로, 잡 정보 검색, 빌드 상태 검색, �
      - `viewName` (string): View의 이름
      - `jobName` (string): 작업의 이름
 
+8. `check_view_exists`
+
+   - 젠킨스 View가 존재하는지 확인합니다.
+   - Inputs:
+     - `viewName` (string): View의 이름
+   - Returns: 젠킨스 View 존재 여부
+
+9. `check_job_exists`
+
+   - 젠킨스 작업이 존재하는지 확인합니다.
+   - Inputs:
+     - `jobName` (string): 작업의 이름
+   - Returns: 젠킨스 작업 존재 여부
+
+10. `stop_build`
+
+    - 빌드 작업을 중지합니다.
+    - Inputs:
+      - `jobName` (string): 작업의 이름
+      - `buildNumber` (number): 빌드 번호
+
+11. `terminate_build`
+
+    - 빌드 작업을 종료합니다.
+    - Inputs:
+      - `jobName` (string): 작업의 이름
+      - `buildNumber` (number): 빌드 번호
+
 ### Node
 
 ```json

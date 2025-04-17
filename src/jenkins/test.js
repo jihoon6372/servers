@@ -7,9 +7,9 @@ const jenkinsInstance = new jenkins({
 
 (async () => {
   try {
-    const data = await jenkinsInstance.view.remove(
-      "프론트엔드개발팀",
-      "shopby-skin-aurora-vanilla"
+    const data = await jenkinsInstance.build.stop(
+      "shopby-skin-aurora-vanilla",
+      115
     );
 
     console.log(data);

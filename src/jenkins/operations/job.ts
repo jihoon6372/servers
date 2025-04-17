@@ -23,3 +23,11 @@ export const requestJobBuild = (
     content: [{ type: "text", text: JSON.stringify(data, null, 2) }],
   };
 };
+
+export const checkJobExists = async (jobName: string) => {
+  const data = await jenkinsInstance.job.exists(jobName);
+
+  return {
+    content: [{ type: "text", text: JSON.stringify(data, null, 2) }],
+  };
+};

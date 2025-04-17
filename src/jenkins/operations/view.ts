@@ -33,3 +33,11 @@ export const removeViewJob = async (viewName: string, jobName: string) => {
     content: [{ type: "text", text: JSON.stringify("success", null, 2) }],
   };
 };
+
+export const checkViewExists = async (viewName: string) => {
+  const data = await jenkinsInstance.view.exists(viewName);
+
+  return {
+    content: [{ type: "text", text: JSON.stringify(data, null, 2) }],
+  };
+};

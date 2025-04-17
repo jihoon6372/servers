@@ -59,3 +59,18 @@ export const removeViewJobTool = {
     required: ["viewName", "jobName"],
   },
 };
+
+export const checkViewExistsTool = {
+  name: "check_view_exists",
+  description: "젠킨스 view 존재 여부를 확인합니다.",
+  inputSchema: {
+    type: "object",
+    properties: {
+      viewName: {
+        type: "string",
+        description: "view 이름",
+      },
+    },
+    required: ["viewName"],
+  },
+};
